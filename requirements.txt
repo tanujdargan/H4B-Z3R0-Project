@@ -1,7 +1,0 @@
-numpy==1.18.0
-pandas==1.0.1
-Pillow==7.0.0
-plotly==4.7.1
-tensorflow==1.14.0
-Keras==2.2.5
-Streamlit==1.8.0
