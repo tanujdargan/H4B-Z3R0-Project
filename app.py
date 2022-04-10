@@ -11,19 +11,12 @@ import io
 from PIL import Image
 import plotly.express as px
 
+
 MODELSPATH = './models/'
 DATAPATH = './data/'
 
 
-def render_header():
-    st.write("""
-        <p align="center"> 
-            <H1> Skin cancer Analyzer 
-        </p>
-
-    """, unsafe_allow_html=True)
-
-
+st.set_page_config(page_title='Z3R0 - Skin Cancer Analysis')  
 @st.cache
 def load_mekd():
     img = Image.open(DATAPATH + '/ISIC_0024312.jpg')
@@ -87,40 +80,85 @@ def display_prediction(y_new):
 
 
 def main():
-    st.sidebar.header('Skin Cancer Analysis B4H Team Z3R0')
-    st.sidebar.subheader('Choose a page to proceed:')
+    st.sidebar.header('Skin Cancer Analysis Image Recognition')
+    st.sidebar.subheader('B4H Team Z3R0')
+    st.sidebar.subheader('Tanuj, Harsadh, Krishit, Nisarg')
+    st.sidebar.subheader('Diseases Detectable:')
+    st.sidebar.text('1. Melanocytic nevi')
+    st.sidebar.text('2. Melanoma')
+    st.sidebar.text('3. Benign keratosis-like lesions')
+    st.sidebar.text('4. Basal cell carcinoma')
+    st.sidebar.text('5. Actinic keratoses')
+    st.sidebar.text('6. Vascular lesions')
+    st.sidebar.text('7. Dermatofibroma')        
+      
+                
+option = st.selectbox(
+     'How would you like to detect a disease?',
+     ('Camera', 'Upload an Image'))
+if option == 'Camera':
+    picture = st.camera_input("Take a picture")
     
+    if picture:
+        x_test = data_gen(picture)
+        image = Image.open(picture)
+        img_array = np.array(image)
+        st.success('File Upload Success!!')
+        if st.button('Run Image Recognition'):
+            import time
 
-    st.header("Upload Your Image")
+            my_bar = st.progress(0)
 
+            for percent_complete in range(100):
+                my_bar.progress(percent_complete + 1)
+            st.image(picture)
+            st.subheader("Loading Algorithm!")
+            model = load_models()
+            st.success("Hooray !! Keras Model Loaded!")
+            st.subheader("Prediction Probability for Uploaded Image")
+            y_new, Y_pred_classes = predict(x_test, model)
+            result = display_prediction(y_new)
+            st.write(result)
+            st.subheader("Probability Graph")
+            fig = px.bar(result, x="Classes",
+            y="Probability", color='Classes')
+            st.plotly_chart(fig, use_container_width=True)
+
+    
+else:
     file_path = st.file_uploader('Upload an image', type=['png', 'jpg'])
-
     if file_path is not None:
             x_test = data_gen(file_path)
             image = Image.open(file_path)
             img_array = np.array(image)
 
             st.success('File Upload Success!!')
+            if st.button('Run Image Recognition'):
+                import time
+                my_bar = st.progress(0)
+                for percent_complete in range(100):
+                    my_bar.progress(percent_complete + 1)
+                st.info("Showing Uploaded Image ---->>>")
+                st.image(img_array, caption='Uploaded Image',
+                     use_column_width=True)
+                st.subheader("Loading Algorithm!")
+                model = load_models()
+                st.success("Hooray !! Keras Model Loaded!")
+                st.subheader("Prediction Probability for Uploaded Image")
+                y_new, Y_pred_classes = predict(x_test, model)
+                result = display_prediction(y_new)
+                st.write(result)
+                st.subheader("Probability Graph")
+                fig = px.bar(result, x="Classes",
+                y="Probability", color='Classes')
+                st.plotly_chart(fig, use_container_width=True)
+        
+            else:
+                 st.info("Click the button to continue")
     else:
             st.info('Please upload Image file')
 
-    if st.checkbox('Show Uploaded Image'):
-            st.info("Showing Uploaded Image ---->>>")
-            st.image(img_array, caption='Uploaded Image',
-                     use_column_width=True)
-            st.subheader("Choose Training Algorithm!")
-            if st.checkbox('Keras'):
-                model = load_models()
-                st.success("Hooray !! Keras Model Loaded!")
-                if st.checkbox('Show Prediction Probablity for Uploaded Image'):
-                    y_new, Y_pred_classes = predict(x_test, model)
-                    result = display_prediction(y_new)
-                    st.write(result)
-                    if st.checkbox('Display Probability Graph'):
-                        fig = px.bar(result, x="Classes",
-                                     y="Probability", color='Classes')
-                        st.plotly_chart(fig, use_container_width=True)
-
+    
 
 if __name__ == "__main__":
     main()
