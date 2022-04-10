@@ -63,7 +63,7 @@ def load_models():
 @st.cache
 def predict(x_test, model):
     Y_pred = model.predict(x_test)
-    ynew = model.predict_proba(x_test)
+    ynew = model.predict(x_test)
     K.clear_session()
     ynew = np.round(ynew, 2)
     ynew = ynew*100
