@@ -2,7 +2,7 @@
 
 ## Link to the hosted app: https://share.streamlit.io/tanujdargan/h4b-z3r0-project/main/app.py
 
-# <div align="center">Project Name</div>
+# <div align="center">Derma Check</div>
 ### Who are we?
 We are a team of 4 members studying in the IB Diploma Program in JBCN International School, Oshiwara. We are enthusiastic and hard-working learners who love to code and come up with modern solutions to problems that are faced by the people in our society. Our passion for anything related to computer science and technology is never-ending and pushes us to do better as we go ahead.
 
