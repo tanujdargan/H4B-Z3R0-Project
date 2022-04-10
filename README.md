@@ -1,6 +1,7 @@
 <h3 align="center"><img src="https://raw.githubusercontent.com/tanujdargan/H4B-Z3R0-Project/main/Assets/Logo.png" width="600px"></h3>
 
-## Link to the hosted app: https://share.streamlit.io/tanujdargan/h4b-z3r0-project/main/app.py
+## Link to the hosted app: 
+https://share.streamlit.io/tanujdargan/h4b-z3r0-project/main/app.py
 
 # <div align="center">Derma Check</div>
 ### Who are we?
